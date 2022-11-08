@@ -7,8 +7,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/testhelpers"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/notional-labs/token-factory/x/tokenfactory/testhelpers"
+	"github.com/notional-labs/token-factory/x/tokenfactory/types"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"

@@ -1,4 +1,4 @@
-module github.com/CosmWasm/token-factory
+module github.com/notional-labs/token-factory
 
 go 1.18
 
