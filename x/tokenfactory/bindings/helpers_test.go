@@ -11,7 +11,6 @@ import (
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/CosmWasm/token-factory/app"
@@ -25,10 +24,11 @@ func CreateTestInput() (*app.TokenApp, sdk.Context) {
 }
 
 func FundAccount(t *testing.T, ctx sdk.Context, osmosis *app.TokenApp, acct sdk.AccAddress) {
-	err := simapp.FundAccount(osmosis.BankKeeper, ctx, acct, sdk.NewCoins(
-		sdk.NewCoin("uosmo", sdk.NewInt(10000000000)),
-	))
-	require.NoError(t, err)
+	// TODO:
+	// err := simapp.FundAccount(osmosis.BankKeeper, ctx, acct, sdk.NewCoins(
+	// 	sdk.NewCoin("uosmo", sdk.NewInt(10000000000)),
+	// ))
+	// require.NoError(t, err)
 }
 
 // we need to make this deterministic (same every test run), as content might affect gas costs
@@ -70,13 +70,15 @@ func instantiateReflectContract(t *testing.T, ctx sdk.Context, tokenz *app.Token
 }
 
 func fundAccount(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.AccAddress, coins sdk.Coins) {
-	err := simapp.FundAccount(
-		tokenz.BankKeeper,
-		ctx,
-		addr,
-		coins,
-	)
-	require.NoError(t, err)
+	// TODO:
+	// err := simapp.FundAccount(
+	// 	tokenz.BankKeeper,
+	// 	ctx,
+	// 	addr,
+	// 	coins,
+	// )
+
+	// require.NoError(t, err)
 }
 
 var defaultFunds = sdk.NewCoins(
