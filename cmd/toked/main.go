@@ -6,7 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"github.com/notional-labs/token-factory/app"
+	"github.com/CosmWasm/token-factory/app"
 )
 
 func main() {

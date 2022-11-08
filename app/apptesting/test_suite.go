@@ -28,10 +28,10 @@ import (
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	authzcodec "github.com/notional-labs/token-factory/x/tokenfactory/types/authzcodec"
+	authzcodec "github.com/CosmWasm/token-factory/x/tokenfactory/types/authzcodec"
 
+	"github.com/CosmWasm/token-factory/app"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	"github.com/notional-labs/token-factory/app"
 )
 
 type KeeperTestHelper struct {
