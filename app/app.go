@@ -53,7 +53,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	// Goverance
+	// Governance
 	"github.com/cosmos/cosmos-sdk/x/gov"
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -232,7 +232,7 @@ var (
 // TokenApp extended ABCI application
 type TokenApp struct {
 	*baseapp.BaseApp
-	legacyAmino       *codec.LegacyAmino //nolint:staticcheck
+	legacyAmino       *codec.LegacyAmino 
 	appCodec          codec.Codec
 	interfaceRegistry types.InterfaceRegistry
 
@@ -807,7 +807,7 @@ func (app *TokenApp) ModuleAccountAddrs() map[string]bool {
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *TokenApp) LegacyAmino() *codec.LegacyAmino { //nolint:staticcheck
+func (app *TokenApp) LegacyAmino() *codec.LegacyAmino { 
 	return app.legacyAmino
 }
 
