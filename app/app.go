@@ -296,7 +296,7 @@ func NewWasmApp(
 	wasmOpts []wasm.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) *TokenApp {
-	appCodec, legacyAmino := encodingConfig.Marshaler, encodingConfig.Amino
+	appCodec, legacyAmino := encodingConfig.Codec, encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
 
 	bApp := baseapp.NewBaseApp(appName, logger, db, encodingConfig.TxConfig.TxDecoder(), baseAppOptions...)
