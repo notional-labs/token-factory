@@ -81,12 +81,6 @@ func fundAccount(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.A
 	// require.NoError(t, err)
 }
 
-var defaultFunds = sdk.NewCoins(
-	sdk.NewInt64Coin("uatom", 333000000),
-	sdk.NewInt64Coin("uosmo", 555000000),
-	sdk.NewInt64Coin("ustar", 999000000),
-)
-
 func SetupCustomApp(t *testing.T, addr sdk.AccAddress) (*app.TokenApp, sdk.Context) {
 	tokenz, ctx := CreateTestInput()
 	wasmKeeper := tokenz.WasmKeeper
