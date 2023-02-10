@@ -179,4 +179,7 @@ replace (
 
 	// informal tendermint
 	github.com/tendermint/tendermint => github.com/informalsystems/tendermint v0.34.26
+
+	// tmdb enforcement
+	github.com/tendermint/tm-db => github.com/tendermint/tm-db v0.6.8-0.20221109095132-774cdfe7e6b0
 )
