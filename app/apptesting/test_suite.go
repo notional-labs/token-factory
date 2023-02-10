@@ -16,7 +16,7 @@ import (
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
-	"github.com/cosmos/cosmos-sdk/x/staking"
+	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
@@ -118,14 +118,13 @@ func (s *KeeperTestHelper) SetupValidator(bondStatus stakingtypes.BondStatus) sd
 	selfBond := sdk.NewCoins(sdk.Coin{Amount: sdk.NewInt(100), Denom: bondDenom})
 
 	s.FundAcc(sdk.AccAddress(valAddr), selfBond)
-
 	// TODO:
-	stakingHandler := staking.NewHandler(s.App.StakingKeeper)
+	stakingMsgServer := stakingkeeper.NewMsgServerImpl(s.App.StakingKeeper)
 	stakingCoin := sdk.NewCoin(sdk.DefaultBondDenom, selfBond[0].Amount)
 	ZeroCommission := stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 	msg, err := stakingtypes.NewMsgCreateValidator(valAddr, valPub, stakingCoin, stakingtypes.Description{}, ZeroCommission, sdk.OneInt())
 	s.Require().NoError(err)
-	res, err := stakingHandler(s.Ctx, msg)
+	res, err := stakingMsgServer.CreateValidator(sdk.WrapSDKContext(s.Ctx), msg)
 	s.Require().NoError(err)
 	s.Require().NotNil(res)
 

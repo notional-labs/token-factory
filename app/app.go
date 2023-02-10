@@ -468,13 +468,12 @@ func NewWasmApp(
 	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
 
 	app.IBCFeeKeeper = ibcfeekeeper.NewKeeper(
-		appCodec,
+		appCodec, 
 		keys[ibcfeetypes.StoreKey],
-		app.getSubspace(ibcfeetypes.ModuleName),
 		app.IBCKeeper.ChannelKeeper, // may be replaced with IBC middleware
 		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		app.AccountKeeper,
+		&app.IBCKeeper.PortKeeper, 
+		app.AccountKeeper, 
 		app.BankKeeper,
 	)
 
@@ -526,7 +525,7 @@ func NewWasmApp(
 		govRouter.AddRoute(wasm.RouterKey, wasm.NewWasmProposalHandler(app.WasmKeeper, enabledProposals))
 	}
 	ibcRouter.
-		AddRoute(wasm.ModuleName, wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper)).
+		AddRoute(wasm.ModuleName, wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper, app.IBCFeeKeeper)).
 		AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
