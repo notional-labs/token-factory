@@ -468,12 +468,12 @@ func NewWasmApp(
 	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
 
 	app.IBCFeeKeeper = ibcfeekeeper.NewKeeper(
-		appCodec, 
+		appCodec,
 		keys[ibcfeetypes.StoreKey],
 		app.IBCKeeper.ChannelKeeper, // may be replaced with IBC middleware
 		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper, 
-		app.AccountKeeper, 
+		&app.IBCKeeper.PortKeeper,
+		app.AccountKeeper,
 		app.BankKeeper,
 	)
 

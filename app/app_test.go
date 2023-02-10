@@ -5,21 +5,22 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/CosmWasm/wasmd/x/wasm"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tendermint/libs/log"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	db "github.com/tendermint/tm-db"
-	tmtypes "github.com/tendermint/tendermint/types"
-	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/cosmos/ibc-go/v6/testing/mock"
-	"github.com/CosmWasm/wasmd/x/wasm"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	abci "github.com/tendermint/tendermint/abci/types"
+	"github.com/tendermint/tendermint/libs/log"
+	tmtypes "github.com/tendermint/tendermint/types"
+	db "github.com/tendermint/tm-db"
 )
 
 var emptyWasmOpts []wasm.Option = nil
@@ -27,7 +28,6 @@ var emptyWasmOpts []wasm.Option = nil
 func TestWasmdExport(t *testing.T) {
 	db := db.NewMemDB()
 	gapp := NewWasmApp(log.NewTMLogger(log.NewSyncWriter(os.Stdout)), db, nil, true, map[int64]bool{}, DefaultNodeHome, 0, MakeEncodingConfig(), wasm.EnableAllProposals, EmptyBaseAppOptions{}, emptyWasmOpts)
-
 
 	// generate validator private/public key
 	privVal := mock.NewPV()
