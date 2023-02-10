@@ -110,7 +110,10 @@ func (app *TokenApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs 
 		feePool.CommunityPool = feePool.CommunityPool.Add(scraps...)
 		app.DistrKeeper.SetFeePool(ctx, feePool)
 
-		app.DistrKeeper.Hooks().AfterValidatorCreated(ctx, val.GetOperator())
+		err := app.DistrKeeper.Hooks().AfterValidatorCreated(ctx, val.GetOperator())
+		if err != nil {
+			return err != nil
+		}
 		return false
 	})
 

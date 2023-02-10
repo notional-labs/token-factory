@@ -23,7 +23,7 @@ import (
 	db "github.com/tendermint/tm-db"
 )
 
-var emptyWasmOpts []wasm.Option = nil
+var emptyWasmOpts []wasm.Option
 
 func TestWasmdExport(t *testing.T) {
 	db := db.NewMemDB()
