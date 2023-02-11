@@ -82,8 +82,7 @@ func setup(t testing.TB, withGenesis bool, invCheckPeriod uint, opts ...wasm.Opt
 
 // Setup initializes a new WasmApp with DefaultNodeHome for integration tests
 func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
-	db := dbm.NewMemDB()
-	app := NewWasmApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, MakeEncodingConfig(), wasm.EnableAllProposals, EmptyBaseAppOptions{}, opts)
+	t.Helper()
 
 	privVal := mock.NewPV()
 	pubKey, err := privVal.GetPubKey()
@@ -101,9 +100,7 @@ func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 		Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, math.NewInt(100000000000000))),
 	}
 
-	app = SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
-
-	return app
+	return SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
 }
 
 // SetupWithGenesisValSet initializes a new WasmApp with a validator set and genesis accounts

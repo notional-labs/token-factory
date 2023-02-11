@@ -1,7 +1,7 @@
 package bindings_test
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 	"time"
 
@@ -18,7 +18,7 @@ import (
 )
 
 func CreateTestInput() (*app.TokenApp, sdk.Context) {
-	osmosis := app.Setup(&testing.T{} ,false)
+	osmosis := app.Setup(&testing.T{}, false)
 	ctx := osmosis.BaseApp.NewContext(false, tmproto.Header{Height: 1, ChainID: "osmosis-1", Time: time.Now().UTC()})
 	return osmosis, ctx
 }
@@ -49,7 +49,7 @@ func RandomBech32AccountAddress() string {
 }
 
 func storeReflectCode(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.AccAddress) uint64 {
-	wasmCode, err := ioutil.ReadFile("./testdata/token_reflect.wasm")
+	wasmCode, err := os.ReadFile("./testdata/token_reflect.wasm")
 	require.NoError(t, err)
 
 	contractKeeper := keeper.NewDefaultPermissionKeeper(tokenz.WasmKeeper)
