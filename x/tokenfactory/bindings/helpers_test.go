@@ -15,6 +15,7 @@ import (
 
 	"github.com/CosmWasm/token-factory/app"
 	"github.com/CosmWasm/wasmd/x/wasm/keeper"
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 )
 
 func CreateTestInput() (*app.TokenApp, sdk.Context) {
@@ -79,6 +80,9 @@ func fundAccount(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.A
 	// )
 
 	// require.NoError(t, err)
+
+	tokenz.BankKeeper.MintCoins(ctx, minttypes.ModuleName, coins)
+	tokenz.BankKeeper.SendCoinsFromModuleToAccount(ctx, minttypes.ModuleName, addr, coins)
 }
 
 func SetupCustomApp(t *testing.T, addr sdk.AccAddress) (*app.TokenApp, sdk.Context) {
