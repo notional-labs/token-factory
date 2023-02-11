@@ -13,15 +13,18 @@ import (
 
 	"cosmossdk.io/math"
 
+	"github.com/CosmWasm/wasmd/x/wasm"
 	bam "github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/simapp/helpers"
 	"github.com/cosmos/cosmos-sdk/snapshots"
 	"github.com/cosmos/cosmos-sdk/snapshots/types"
+	"github.com/cosmos/cosmos-sdk/testutil/mock"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -35,9 +38,6 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
-	"github.com/cosmos/cosmos-sdk/testutil/mock"
-	"github.com/CosmWasm/wasmd/x/wasm"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
@@ -93,7 +93,6 @@ func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 	validator := tmtypes.NewValidator(pubKey, 1)
 	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
 
-
 	// generate genesis account
 	senderPrivKey := secp256k1.GenPrivKey()
 	acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
@@ -103,7 +102,7 @@ func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 	}
 
 	app = SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
-	
+
 	return app
 }
 
