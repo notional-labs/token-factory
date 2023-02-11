@@ -18,7 +18,7 @@ import (
 )
 
 func CreateTestInput() (*app.TokenApp, sdk.Context) {
-	osmosis := app.Setup(false)
+	osmosis := app.Setup(&testing.T{} ,false)
 	ctx := osmosis.BaseApp.NewContext(false, tmproto.Header{Height: 1, ChainID: "osmosis-1", Time: time.Now().UTC()})
 	return osmosis, ctx
 }

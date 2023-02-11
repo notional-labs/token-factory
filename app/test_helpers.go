@@ -35,8 +35,9 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
-
+	"github.com/cosmos/cosmos-sdk/testutil/mock"
 	"github.com/CosmWasm/wasmd/x/wasm"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
@@ -80,25 +81,29 @@ func setup(t testing.TB, withGenesis bool, invCheckPeriod uint, opts ...wasm.Opt
 }
 
 // Setup initializes a new WasmApp with DefaultNodeHome for integration tests
-func Setup(isCheckTx bool, opts ...wasm.Option) *TokenApp {
+func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 	db := dbm.NewMemDB()
 	app := NewWasmApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, MakeEncodingConfig(), wasm.EnableAllProposals, EmptyBaseAppOptions{}, opts)
 
-	if !isCheckTx {
-		genesisState := NewDefaultGenesisState()
-		stateBytes, err := json.MarshalIndent(genesisState, "", " ")
-		if err != nil {
-			panic(err)
-		}
+	privVal := mock.NewPV()
+	pubKey, err := privVal.GetPubKey()
+	require.NoError(t, err)
 
-		app.InitChain(
-			abci.RequestInitChain{
-				Validators:      []abci.ValidatorUpdate{},
-				ConsensusParams: DefaultConsensusParams,
-				AppStateBytes:   stateBytes,
-			},
-		)
+	// create validator set with single validator
+	validator := tmtypes.NewValidator(pubKey, 1)
+	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
+
+
+	// generate genesis account
+	senderPrivKey := secp256k1.GenPrivKey()
+	acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
+	balance := banktypes.Balance{
+		Address: acc.GetAddress().String(),
+		Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, math.NewInt(100000000000000))),
 	}
+
+	app = SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
+	
 	return app
 }
 
