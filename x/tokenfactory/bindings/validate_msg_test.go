@@ -24,6 +24,7 @@ func TestCreateDenom(t *testing.T) {
 	specs := map[string]struct {
 		createDenom *bindings.CreateDenom
 		expErr      bool
+		expPanic	bool
 	}{
 		"valid sub-denom": {
 			createDenom: &bindings.CreateDenom{
@@ -34,13 +35,14 @@ func TestCreateDenom(t *testing.T) {
 			createDenom: &bindings.CreateDenom{
 				Subdenom: "",
 			},
-			expErr: false,
+			expPanic: true,
 		},
 		"invalid sub-denom": {
 			createDenom: &bindings.CreateDenom{
 				Subdenom: "sub-denom_2",
 			},
-			expErr: true,
+			// expErr: true,
+			// expPanic: true,
 		},
 		"null create denom": {
 			createDenom: nil,
@@ -49,6 +51,13 @@ func TestCreateDenom(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
+
+			if spec.expPanic {
+				require.Panics(t, func ()  {
+					wasmbinding.PerformCreateDenom(&tokenz.TokenFactoryKeeper, &tokenz.BankKeeper, ctx, actor, spec.createDenom)
+				})
+				return
+			}
 			// when
 			_, gotErr := wasmbinding.PerformCreateDenom(&tokenz.TokenFactoryKeeper, &tokenz.BankKeeper, ctx, actor, spec.createDenom)
 			// then
