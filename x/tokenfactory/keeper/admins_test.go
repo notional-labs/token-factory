@@ -233,6 +233,8 @@ func (suite *KeeperTestSuite) TestChangeAdminDenom() {
 			// setup test
 			suite.SetupTest()
 
+			fmt.Println("balances", suite.App.BankKeeper.GetAllBalances(suite.Ctx, suite.TestAccs[0]))
+
 			// Create a denom and mint
 			res, err := suite.msgServer.CreateDenom(sdk.WrapSDKContext(suite.Ctx), types.NewMsgCreateDenom(suite.TestAccs[0].String(), "bitcoin"))
 			suite.Require().NoError(err)

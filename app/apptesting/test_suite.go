@@ -95,8 +95,10 @@ func (s *KeeperTestHelper) Commit() {
 // FundAcc funds target address with specified amount.
 func (s *KeeperTestHelper) FundAcc(acc sdk.AccAddress, amounts sdk.Coins) {
 	// TODO:
-	// err := simapp.FundAccount(s.App.BankKeeper, s.Ctx, acc, amounts)
-	// s.Require().NoError(err)
+	err := s.App.BankKeeper.MintCoins(s.Ctx, minttypes.ModuleName, amounts)
+	s.Require().NoError(err)
+	err = s.App.BankKeeper.SendCoinsFromModuleToAccount(s.Ctx, minttypes.ModuleName, acc, amounts)
+	s.Require().NoError(err)
 }
 
 // FundModuleAcc funds target modules with specified amount.
