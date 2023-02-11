@@ -203,13 +203,13 @@ func initTestnetFiles(
 	nodeIDs := make([]string, args.numValidators)
 	valPubKeys := make([]cryptotypes.PubKey, args.numValidators)
 
-	migalooConfig := srvconfig.DefaultConfig()
-	migalooConfig.MinGasPrices = args.minGasPrices
-	migalooConfig.API.Enable = true
-	migalooConfig.Telemetry.Enabled = true
-	migalooConfig.Telemetry.PrometheusRetentionTime = 60
-	migalooConfig.Telemetry.EnableHostnameLabel = false
-	migalooConfig.Telemetry.GlobalLabels = [][]string{{"chain_id", args.chainID}}
+	tokedConfig := srvconfig.DefaultConfig()
+	tokedConfig.MinGasPrices = args.minGasPrices
+	tokedConfig.API.Enable = true
+	tokedConfig.Telemetry.Enabled = true
+	tokedConfig.Telemetry.PrometheusRetentionTime = 60
+	tokedConfig.Telemetry.EnableHostnameLabel = false
+	tokedConfig.Telemetry.GlobalLabels = [][]string{{"chain_id", args.chainID}}
 
 	var (
 		genAccounts []authtypes.GenesisAccount
@@ -327,7 +327,7 @@ func initTestnetFiles(
 			return err
 		}
 
-		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config", "app.toml"), migalooConfig)
+		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config", "app.toml"), tokedConfig)
 	}
 
 	if err := initGenFiles(clientCtx, mbm, args.chainID, genAccounts, genBalances, genFiles, args.numValidators); err != nil {
@@ -473,7 +473,7 @@ func writeFile(name string, dir string, contents []byte) error {
 		return err
 	}
 
-	err = os.WriteFile(file, contents, 0o644) // nolint: gosec
+	err = os.WriteFile(file, contents, 0o644) //nolint:gosec
 	if err != nil {
 		return err
 	}
