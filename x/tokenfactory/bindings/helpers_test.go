@@ -81,8 +81,10 @@ func fundAccount(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.A
 
 	// require.NoError(t, err)
 
-	tokenz.BankKeeper.MintCoins(ctx, minttypes.ModuleName, coins)
-	tokenz.BankKeeper.SendCoinsFromModuleToAccount(ctx, minttypes.ModuleName, addr, coins)
+	err := tokenz.BankKeeper.MintCoins(ctx, minttypes.ModuleName, coins)
+	require.NoError(t, err)
+	err = tokenz.BankKeeper.SendCoinsFromModuleToAccount(ctx, minttypes.ModuleName, addr, coins)
+	require.NoError(t, err)
 }
 
 func SetupCustomApp(t *testing.T, addr sdk.AccAddress) (*app.TokenApp, sdk.Context) {

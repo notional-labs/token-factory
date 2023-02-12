@@ -21,6 +21,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/helpers"
 	"github.com/cosmos/cosmos-sdk/snapshots"
 	"github.com/cosmos/cosmos-sdk/snapshots/types"
@@ -38,8 +39,6 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
-	cosmossecp256k1 "github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	"github.com/cosmos/cosmos-sdk/simapp"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
@@ -92,7 +91,7 @@ func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 
 	// generate genesis account
 	senderPrivKey := secp256k1.GenPrivKey()
-	senderPubKey := cosmossecp256k1.PubKey{
+	senderPubKey := secp256k1.PubKey{
 		Key: senderPrivKey.PubKey().Bytes(),
 	}
 
