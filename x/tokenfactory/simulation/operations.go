@@ -44,7 +44,6 @@ func WeightedOperations(
 	ak types.AccountKeeper,
 	bk BankKeeper,
 ) simulation.WeightedOperations {
-
 	var (
 		weightMsgCreateDenom      int
 		weightMsgMint             int
@@ -358,7 +357,7 @@ func SimulateMsgCreateDenom(tfKeeper TokenfactoryKeeper, ak types.AccountKeeper,
 		// Check if sims account enough create fee
 		createFee := tfKeeper.GetParams(ctx).DenomCreationFee
 		balances := bk.GetAllBalances(ctx, simAccount.Address)
-		_, hasNeg := balances.SafeSub(createFee)
+		_, hasNeg := balances.SafeSub(createFee...)
 		if hasNeg {
 			return simtypes.NoOpMsg(types.ModuleName, types.MsgCreateDenom{}.Type(), "Creator not enough creation fee"), nil, nil
 		}
