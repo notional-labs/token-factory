@@ -228,7 +228,7 @@ func TestMint(t *testing.T) {
 				Amount:        amount,
 				MintToAddress: lucky.String(),
 			},
-			expErr: false,
+			expErr: true,
 		},
 		"nonexistent sub-denom": {
 			mint: &bindings.MintTokens{
@@ -356,7 +356,7 @@ func TestBurn(t *testing.T) {
 				Amount:          mintAmount,
 				BurnFromAddress: creator.String(),
 			},
-			expErr: false,
+			expErr: true,
 		},
 		"invalid sub-denom": {
 			burn: &bindings.BurnTokens{
@@ -413,7 +413,7 @@ func TestBurn(t *testing.T) {
 				MintToAddress: creator.String(),
 			}
 			err = wasmbinding.PerformMint(&tokenz.TokenFactoryKeeper, &tokenz.BankKeeper, ctx, creator, emptyDenomMintBinding)
-			require.NoError(t, err)
+			require.Error(t, err)
 
 			// when
 			gotErr := wasmbinding.PerformBurn(&tokenz.TokenFactoryKeeper, ctx, creator, spec.burn)
