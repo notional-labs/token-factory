@@ -143,7 +143,7 @@ func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *TokenApp {
 		// Initialize the chain
 		app.InitChain(
 			abci.RequestInitChain{
-				ChainId:         "mercury-1",
+				ChainId:         "osmosis-1",
 				Validators:      []abci.ValidatorUpdate{},
 				ConsensusParams: DefaultConsensusParams,
 				AppStateBytes:   stateBytes,
